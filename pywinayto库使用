@@ -1,0 +1,26 @@
+$*$*$. pywinauto简介
+  pywinauto库作为测试windows和linux上的应用程序简直是太厉害了，针对win32和uia后端的UI界面测试真的时太完美了！！！
+ 
+$*$*$. 使用
+  1.首先导入pywinauto库：
+    import pywinauto
+  2.获得一个应用实例：
+    instance_app = pywinauto.application.Application()
+  3.把获得的应用实例与实际的应用程序联系起来：
+    instance_app.start("C:\app.exe")
+    注：第2步和第3部可以合在一起 --- nstance_app = pywinauto.application.Application().start("C:\app.exe")
+  4.到目前为止，指定的应用程序就已经被打开了，出现在屏幕最上方的对话框（属于被打开的应用）可以使用top_window()方法获得
+    top_dialog =  nstance_app.top_window()
+  5.察看该对话框下有哪些控件，菜单等等可以用，使用print_control_identifilers()方法：
+    top_dialog.print_control_identifilers(depth=2)
+    注：depth=2表示只打印最上层对话框下的控件，要在最上方的对话框中操作的控件，都能在print_control_identifilers()方法打印
+    出的信息中找到(信息包括控件的类型，标识符号等等)
+  6.当要把print_control_identifilers()方法打印的每一个控件信息与屏幕最上方的对话框对应时，可调用draw_outline()方法，在屏幕上框出：
+    top_dialog.window(best_match="代表该控件的标识符").draw_outline()
+  7.当第6步确认了要操作的控件时，就可以调用控件的操作方法（如click，）：
+    top_dialog.window(best_match="代表该控件的标识符").相应操作方法()
+  8.当遇到自定义的控件时（非标准类型控件），就只能使用pywinauto库提供的模拟鼠标和键盘的方法了  
+    
+  @@@当每打开的一个界面时（即屏幕最上方的对话框），可以重复第4-7步，这样就能准确操作界面上出现的任何控件！！！  
+    
+    
