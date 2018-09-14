@@ -24,3 +24,7 @@ $*$*$. 使用
   @@@当每打开的一个界面时（即屏幕最上方的对话框），可以重复第4-7步，这样就能准确操作界面上出现的任何控件！！！  
     
     
+$*$*$. 当有的窗口被打开时，top_window()获取不到，（比如在导入一个文件的对话框），此时可以使用window(title=)的方式来定位对话框，
+       如果backend=win32,则使用pywinauto.application.Application().start("C:\app.exe").window(title=)
+       如果backend=uia,则使用pywinauto.application.Application().start("C:\app.exe").top_wind().window(title=)
+        为什么会有这样的区别？
