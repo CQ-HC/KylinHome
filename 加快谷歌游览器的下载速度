@@ -1,0 +1,11 @@
+前提：
+    不要开启任何翻墙代理，测试发现下载速度可以达到5M/s
+    
+操作：
+1.修改文件（C:\Windows\System32\drivers\etc\hosts），在最后添加下面两行，需要使用管理员权限，才能更改该文件
+    74.125.39.99 chrome.google.com
+    74.125.39.99 clients2.google.com
+    
+如何成为管理员：
+1.右键“此电脑” --》 管理 --》 本地用户和组 --》 用户 --》 右击Administrator --》 属性 --》 去掉勾选的账户已禁用
+2.切换用户，使用administrator登录，修改该文件
