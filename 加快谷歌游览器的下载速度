@@ -9,3 +9,12 @@
 如何成为管理员：
 1.右键“此电脑” --》 管理 --》 本地用户和组 --》 用户 --》 右击Administrator --》 属性 --》 去掉勾选的账户已禁用
 2.切换用户，使用administrator登录，修改该文件
+
+
+
+
+这里在提供其他系统平台的host所在目录：
+Android（安卓）系统hosts位于 /system/etc/hosts
+Mac（苹果电脑）系统hosts跟Linux一样位于 /etc/hosts
+iPhone（iOS）系统hosts跟Linux Mac一样位于 /etc/hosts
+Linux系统hosts位于 /etc/hosts
