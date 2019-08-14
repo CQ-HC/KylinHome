@@ -1,0 +1,151 @@
+本文复制链接：https://blog.csdn.net/libing881/article/details/11992575
+
+
+
+First, you can find libaio source in http://libaio.sourcearchive.com/
+
+Second,download the libaio_0.3.109.orig.tar.gz version source,unzip it
+
+Than you can find the real source in src directory.
+
+But there is lack of mips architecture support.
+
+So I just write some ugly patch about it.
+
+The key is a .h file.You can name it syscall-mips.h
+
+here is the code :
+
+
+/****************BEGIN*************************/
+
+#define __SYSCALL_CLOBBERS "$1", "$3", "$10", "$11", "$12", "$13", \
+    "$14", "$15", "$24", "$25", "memory"
+
+
+#define io_syscall1(type,fname,sname,type1,arg1) \
+type fname (type1 arg1) \
+{ \
+    long _sys_result;                     \
+    register long __v0 asm("$2");         \
+    register long __a0 asm("$4") = arg1;  \
+    register long __a1 asm("$7");         \
+    __asm__ __volatile__(             \
+        ".set push\n\t"               \
+        ".set noreorder\n\t"          \
+        "li   %0, %2\n\t"             \
+        "syscall\n\t"                 \
+        ".set pop\n\t"                \
+        :"=r"(__v0),"=r"(__a1)        \
+        :"i" (__NR_##sname),"r"(__a0) \
+        : __SYSCALL_CLOBBERS          \
+    );                                \
+    _sys_result = __v0;               \
+    _sys_result;                      \
+}
+
+#define io_syscall2(type,fname,sname,type1,arg1,type2,arg2) \
+type fname (type1 arg1,type2 arg2) \
+{ \
+    long _sys_result;                     \
+    register long __v0 asm("$2");         \
+    register long __a0 asm("$4") = arg1;  \
+    register long __a1 asm("$5") = arg2;  \
+    register long __a2 asm("$7");         \
+    __asm__ __volatile__(             \
+        ".set push\n\t"               \
+        ".set noreorder\n\t"          \
+        "li   %0, %2\n\t"             \
+        "syscall\n\t"                 \
+        ".set pop\n\t"                \
+        :"=r"(__v0),"=r"(__a2)        \
+        :"i" (__NR_##sname),"r"(__a0),"r"(__a1) \
+        : __SYSCALL_CLOBBERS          \
+    );                                \
+    _sys_result = __v0;               \
+    _sys_result;                      \
+}
+
+#define io_syscall3(type,fname,sname,type1,arg1,type2,arg2,type3,arg3) \
+type fname (type1 arg1,type2 arg2,type3 arg3) \
+{ \
+    long _sys_result;                     \
+    register long __v0 asm("$2");         \
+    register long __a0 asm("$4") = arg1;  \
+    register long __a1 asm("$5") = arg2;  \
+    register long __a2 asm("$6") = arg3;  \
+    register long __a3 asm("$7");         \
+    __asm__ __volatile__(             \
+        ".set push\n\t"               \
+        ".set noreorder\n\t"          \
+        "li   %0, %2\n\t"             \
+        "syscall\n\t"                 \
+        ".set pop\n\t"                \
+        :"=r"(__v0),"=r"(__a3)        \
+        :"i" (__NR_##sname),"r"(__a0),"r"(__a1),"r"(__a2)  \
+        : __SYSCALL_CLOBBERS          \
+    );                                \
+    _sys_result = __v0;               \
+    _sys_result;                      \
+}
+
+
+#define io_syscall5(type,fname,sname,type1,arg1,type2,arg2,type3,arg3,type4,arg4, \
+  type5,arg5) \
+type fname (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5) \
+{ \
+    long _sys_result;                     \
+    register long __v0 asm("$2");         \
+    register long __a0 asm("$4") = arg1;  \
+    register long __a1 asm("$5") = arg2;  \
+    register long __a2 asm("$6") = arg3;  \
+    register long __a3 asm("$7") = arg4;  \
+    register long __a4 asm("$8") = arg5;  \
+    register long __a5 asm("$9");         \
+    __asm__ __volatile__(             \
+        ".set push\n\t"               \
+        ".set noreorder\n\t"          \
+        "li   %0, %2\n\t"             \
+        "syscall\n\t"                 \
+        ".set pop\n\t"                \
+        :"=r"(__v0),"=r"(__a5)        \
+        :"i" (__NR_##sname),"r"(__a0),"r"(__a1),"r"(__a2),"r"(__a3) ,"r"(__a4)   \
+        : __SYSCALL_CLOBBERS          \
+    );                                \
+    _sys_result = __v0;               \
+    _sys_result;                      \
+}
+
+/****************END*************************/
+That is All.They are the most important part. The rest is just relsove compile problem.
+
+Like somewhere is missing the mips definition, somewhere is missing the .h name.
+
+Remeber change the CC in Makefile, use mips-gcc.
+
+Finally,just run make command,you will get a static lib which is named "libaio.a"
+
+I use it to work with fio tools,it's work for me.Hope it's useful to you.
+
+
+
+今天想用一下fio在mips架构下，修改fio代码，将mips相关的地方补全，主要是缺少mips定义，还有一些头文件方面的问题。
+
+最后发现链接的时候提示找不到libaio库。搜索了一下，在http://libaio.sourcearchive.com/下载了libaio的代码。
+
+然后解压准备编译一个mips版本，结果悲剧的发现libaio不支持mips架构，简单的分析了一下源码，发现原来就差一个头文件，用来
+
+定义在mips架构下，用户态如何进入内核的翻译，这个是和架构强相关的。
+
+简单开始google和stackoverflow了一把，没有什么有用的发现。分析了一下x86和x86_64架构的头文件，发现还算简单。
+
+于是准备自己写一下，google一下mips的ABI接口，然后又搜索了一下系统调用的实现，然后就完成了上面的头文件的主要内容。
+
+主要就是利用系统调用的接口，是linux内核支持的aio相关的调用，通过寄存器传入多个参数到内核。
+
+剩下的就是解决libaio本身的编译问题，注意一下，这部分代码会有编译告警，分析一下，主要是类型转换方面的，我决定不管了^_^
+
+编译得到了libaio.a。下一步是将libaio.a拷贝到库目录中去。编译通过后，到mips环境下试了一下，ok成功了。
+--------------------- 
+版权声明：本文为CSDN博主「libing881」的原创文章，遵循CC 4.0 by-sa版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/libing881/article/details/11992575
