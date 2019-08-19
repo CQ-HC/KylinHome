@@ -1,0 +1,8 @@
+https://openbenchmarking.org/ 这里有很多性能测试程序可以移植
+把X86平台的一些程序移植到嵌入式平台上运行时，目前遇到过三种编译方法：
+1、程序源码中直接提供Makefile;
+  这种类型的交叉编译至少要提供CC,CFLAGS,LDFLAGS,设计编译C++的程序时需要提供CXX，CXXFLAGS,具体移植过程中还需要提供哪些选项，需要根据实际情况而定
+
+
+2、根据configure来生成Makefile;
+3、根据cmake来生成Makefile;
