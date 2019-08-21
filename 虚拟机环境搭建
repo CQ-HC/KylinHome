@@ -5,3 +5,20 @@
   共享目录需要修改权限问题，将当期登录用户加入到vboxsf组，参考：https://blog.csdn.net/superbfly/article/details/50844206
     sudo usermod -aG vboxsf $(whoami)
     
+    
+*更换apt源
+  把原来的/etc/apt/sources.list文件备份，在新建sources.list文件加入下列内容,其中bionic这个字段需要根据不同的ubuntu版本更改，
+  使用lsb_release -c命令查看系统代号
+    deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+    deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+    deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+    deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+    deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+    deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+    deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+    deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+    deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+    deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+
+
+    
