@@ -1,0 +1,7 @@
+*虚拟机安装和镜像安装参考：https://www.jianshu.com/p/fba87fa4f028
+  注意在安装完成后，调整启动顺序，让硬盘启动第一优先
+
+*虚拟机和host机至之间，复制粘贴以及共享文件夹需要使用“安装增强功能”，参考https://blog.csdn.net/qq_40829735/article/details/89016184
+  共享目录需要修改权限问题，将当期登录用户加入到vboxsf组，参考：https://blog.csdn.net/superbfly/article/details/50844206
+    sudo usermod -aG vboxsf $(whoami)
+    
