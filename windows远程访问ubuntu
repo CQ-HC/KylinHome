@@ -1,0 +1,29 @@
+这里总结个三个方法远程访问Ubuntu
+
+方法1：
+  配置：windows端下载MobaXterm，linux端开启SSH服务
+  连接步骤：
+    1、打开MobaXterm，新建session，选择SSH，填入remote host的IP地址，登陆用户名，默认端口22
+    2、在Advance SSH settings项的Remote environment选择Gnome desktop(Ubuntu16.04 默认使用这个desktop),其它配置默认
+    3、连接需要一会儿时间
+    
+方法2：
+  配置：windows端下载MobaXterm，linux端安装vnc4server、dconf-editor
+    1、sudo apt-get install vnc4server dconf-editor
+    2、安装完成后，运行dconf-editor,依次进入菜单：org --- gnome --- desktop --- remote-access，
+    然后取消 require-encryption（请求加密）的勾选状态，保存设置.
+    3、在Ubuntu上设置共享桌面（英文搜索desktop,中文搜索共享桌面），参考https://blog.csdn.net/wgshun616/article/details/89187329
+  连接步骤：
+    1、打开MobaXterm，新建session，选择VNC，填入remote host的IP地址，默认端口5900
+    2、登陆时输入VNC的登陆密码
+    
+方法3：参考https://www.cnblogs.com/findumars/p/5410914.html
+  配置：linux端安装vnc4server、dconf-editor、xrdp
+    1、sudo apt-get install vnc4server dconf-editor xrdp
+    2、cd /home/youruser(youruser 是每个人自己的用户名)
+    3、echo"gnome-session --session=gnome-classic" > .xsession
+    4、sudo service xrdp restart
+  连接步骤：
+    1、在windows上，Ctrl+R，运行mstsc
+    2、输入remote host的IP地址，点击链接
+    3、在xrdp的登陆框的mode,选择vnc-any,填入其它信息后，点击登陆
