@@ -1,0 +1,21 @@
+统一C代码格式和风格可以使用astyle这个工具
+
+建议的格式设定:
+  astyle --style=linux -Sw -fpXHU -jk3 -n -z2 fileName
+  
+由于每行代码后面的空格不能由该工具去掉,可以使用VIM中的该功能
+  :%s/\s\+$//
+  该命令\s代表空格\+$表示每行末的所有空格,就是一个替换命令
+  
+由前两条命令生成一个脚本:
+#/bin/bash
+
+fileName=$1
+
+echo $fileName
+vim $fileName << EOF
+:%s/\s\+$//
+:x
+EOF
+
+astyle --style=linux -Sw -fpXHU -jk3 -n -z2 $fileName
