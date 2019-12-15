@@ -1,3 +1,10 @@
-$*$*$
+# 字符串编码转换
 打印出的字符串是unicode编码（例：string = u'abc'）时,可是使用字符串的encode方法，变成其它的编码方式：
 如：print string.encode("utf-8")  =>  abc ，字符串前面就没有u
+
+# Python 第三方库的whl包网址
+  https://www.lfd.uci.edu/~gohlke/pythonlibs/
+  
+# 编程学习网站
+  https://www.tutorialspoint.com/tutorialslibrary.htm
+  
