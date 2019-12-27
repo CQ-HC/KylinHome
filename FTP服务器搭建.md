@@ -25,3 +25,6 @@ sudo chgrp ftp /var/ftp #把该目录的 group owner 改为 ftp
 
 # 把FTP服务设置为开机自启动
 修改/etc/rc.local,加入/etc/rc.d/init.d/vsftpd  start
+
+# python 的ftplib库
+[ftplib要点](https://blog.csdn.net/u010005987/article/details/89636420)
