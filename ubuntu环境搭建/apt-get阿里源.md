@@ -40,12 +40,28 @@ deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted
 3.使用sudo apt-get update更新源的链接  
 
 # 使用ppa源安装指定版本的程序  
-1.添加ppa源到系统中  
-sudo add-apt-repository ppa:deadsnakes/ppa  
-2.更新  
+1.添加ppa源到系统中  (其他程序的PPA可以在https://launchpad.net 中搜索) , 也可以使用add-apt-repository + 程序名搜索  
+sudo add-apt-repository ppa:deadsnakes/ppa     （这里是添加python的PPA）  
+2.更新源  
 sudo apt-get update  
 3.安装工具  
 sudo apt-get install python3.6 -y  
 4.删除ppa源  
 在/etc/apt/sources.list.d目录下，找到对应的源的list文件，删除即可  
+
+
+# 安装pythonx.x对应的pip  
+pythonx.x -m pip install --upgrade requests  
+
+# pip安装指定版本的库 
+1.更改为国内的pip下载源  
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple  
+2.安装库  
+pip install 库名==版本号  
+比如:  
+pip pyclibrary==0.1.4
+pip pyserial==3.4
+pip PyYAML==5.3
+pip robotframework==3.1.2
+pip six==1.14.0
 
